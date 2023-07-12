@@ -14,11 +14,11 @@ import (
 	"runtime"
 	"strconv"
 
+	"github.com/suisrc/wireguard-go/conn"
+	"github.com/suisrc/wireguard-go/device"
+	"github.com/suisrc/wireguard-go/ipc"
+	"github.com/suisrc/wireguard-go/tun"
 	"golang.org/x/sys/unix"
-	"golang.zx2c4.com/wireguard/conn"
-	"golang.zx2c4.com/wireguard/device"
-	"golang.zx2c4.com/wireguard/ipc"
-	"golang.zx2c4.com/wireguard/tun"
 )
 
 const (
@@ -222,7 +222,7 @@ func main() {
 		return
 	}
 
-	device := device.NewDevice(tdev, conn.NewDefaultBind(), logger)
+	device := device.NewDevice(tdev, conn.NewDefaultBind(), logger, 2)
 
 	logger.Verbosef("Device started")
 

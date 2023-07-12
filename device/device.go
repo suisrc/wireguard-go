@@ -11,10 +11,10 @@ import (
 	"sync/atomic"
 	"time"
 
-	"golang.zx2c4.com/wireguard/conn"
-	"golang.zx2c4.com/wireguard/ratelimiter"
-	"golang.zx2c4.com/wireguard/rwcancel"
-	"golang.zx2c4.com/wireguard/tun"
+	"github.com/suisrc/wireguard-go/conn"
+	"github.com/suisrc/wireguard-go/ratelimiter"
+	"github.com/suisrc/wireguard-go/rwcancel"
+	"github.com/suisrc/wireguard-go/tun"
 )
 
 type Device struct {
@@ -281,7 +281,11 @@ func (device *Device) SetPrivateKey(sk NoisePrivateKey) error {
 	return nil
 }
 
-func NewDevice(tunDevice tun.Device, bind conn.Bind, logger *Logger) *Device {
+func NewDevice(tunDevice tun.Device, bind conn.Bind, logger *Logger, workers int) *Device {
+	if workers <= 0 {
+		workers = runtime.NumCPU()
+	}
+
 	device := new(Device)
 	device.state.state.Store(uint32(deviceStateDown))
 	device.closed = make(chan struct{})

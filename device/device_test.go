@@ -20,10 +20,10 @@ import (
 	"testing"
 	"time"
 
-	"golang.zx2c4.com/wireguard/conn"
-	"golang.zx2c4.com/wireguard/conn/bindtest"
-	"golang.zx2c4.com/wireguard/tun"
-	"golang.zx2c4.com/wireguard/tun/tuntest"
+	"github.com/suisrc/wireguard-go/conn"
+	"github.com/suisrc/wireguard-go/conn/bindtest"
+	"github.com/suisrc/wireguard-go/tun"
+	"github.com/suisrc/wireguard-go/tun/tuntest"
 )
 
 // uapiCfg returns a string that contains cfg formatted use with IpcSet.
@@ -166,7 +166,7 @@ func genTestPair(tb testing.TB, realSocket bool) (pair testPair) {
 		if _, ok := tb.(*testing.B); ok && !testing.Verbose() {
 			level = LogLevelError
 		}
-		p.dev = NewDevice(p.tun.TUN(), binds[i], NewLogger(level, fmt.Sprintf("dev%d: ", i)))
+		p.dev = NewDevice(p.tun.TUN(), binds[i], NewLogger(level, fmt.Sprintf("dev%d: ", i)), 2)
 		if err := p.dev.IpcSet(cfg[i]); err != nil {
 			tb.Errorf("failed to configure device %d: %v", i, err)
 			p.dev.Close()

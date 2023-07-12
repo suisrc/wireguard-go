@@ -10,8 +10,8 @@ import (
 	"encoding/binary"
 	"testing"
 
-	"golang.zx2c4.com/wireguard/conn"
-	"golang.zx2c4.com/wireguard/tun/tuntest"
+	"github.com/suisrc/wireguard-go/conn"
+	"github.com/suisrc/wireguard-go/tun/tuntest"
 )
 
 func TestCurveWrappers(t *testing.T) {
@@ -39,7 +39,7 @@ func randDevice(t *testing.T) *Device {
 	}
 	tun := tuntest.NewChannelTUN()
 	logger := NewLogger(LogLevelError, "")
-	device := NewDevice(tun.TUN(), conn.NewDefaultBind(), logger)
+	device := NewDevice(tun.TUN(), conn.NewDefaultBind(), logger, 2)
 	device.SetPrivateKey(sk)
 	return device
 }
